@@ -18,4 +18,6 @@ class Customer extends Database{
 
       return parent::voerQueryUit($query, $params);
     }
+
+    
   }
