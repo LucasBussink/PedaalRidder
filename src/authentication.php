@@ -1,5 +1,5 @@
 <?php
-require 'database.php';
+require_once 'database.php';
 
 class Authenticate extends Database {
   public function login($gebruikersnaam, $wachtwoord) {
@@ -18,5 +18,14 @@ class Authenticate extends Database {
   public function logout() {
     session_start();
     session_destroy();
+  }
+
+
+  public function checkEmail($email) {
+    $query = "SELECT * FROM users WHERE email = ?";
+    $params = [$email];
+    $result = parent::voerQueryUit($query, $params);
+
+    return count($result) > 0;
   }
 }
