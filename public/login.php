@@ -16,6 +16,7 @@
 
 
   <?php
+    session_start();
     if (isset($_POST['login'])) 
       {
         $username = $_POST['username'];
@@ -27,6 +28,8 @@
           require_once '../src/authentication.php';
           $auth = new Authenticate();
           if ($auth->login($username, $password)) {
+            $_SESSION['login'] = true;
+            $_SESSION['username'] = $username;
             header("Location: index.php");
             exit();
           } else {

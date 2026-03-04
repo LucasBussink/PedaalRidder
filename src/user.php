@@ -13,7 +13,6 @@ public function addUser($username, $password, $email)
       $email
     ];
     $userResult = parent::voerQueryUit($userQuery, $userParams);
-echo "User added successfully!";
     
     return $userResult;
   }
