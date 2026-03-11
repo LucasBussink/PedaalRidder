@@ -2,6 +2,7 @@
 
 :root {
   --primary-color: #136DEC;
+  --secondary-color: #F07D13;
 }
 
 * {
@@ -12,4 +13,9 @@
 
 body {
   font-family: Inter;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
 }
