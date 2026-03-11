@@ -1,0 +1,127 @@
+@import url('styles.css');
+
+body {
+  header {
+    border-bottom: 2px solid #E2E8F0;
+    padding: 10px;
+
+    .container {
+      display: flex;
+      justify-content: space-between;
+
+      .logo {
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+
+        img {
+          height: 50px;
+          margin-right: 10px;
+        }
+
+        span {
+          font-weight: 700;
+
+          &:first-of-type {
+            margin-right: 3px;
+          }
+
+          /* &:not(:first-of-type) {
+            text-transform: uppercase;
+          } */
+
+          &.blue {
+            color: var(--primary-color);
+          }
+
+          &.orange {
+            color: var(--secondary-color);
+          }
+        }
+      }
+
+      nav {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        a {
+          font-weight: 600;
+          padding: 10px 20px;
+          border-radius: 10px;
+          text-decoration: none;
+
+          &.login-button {
+            background-color: #E2E8F0;
+            color: #000000;
+          }
+
+          &.register-button {
+            background-color: var(--primary-color);
+            color: #FFFFFF;
+          }
+
+          &.logout-button {
+            background-color: #E7F0FD;
+            color: var(--primary-color);
+          }
+        }
+      }
+    }
+  }
+
+  main {
+    .hero {
+      background-color: #F6F7F8;
+      padding: 80px;
+
+      .container {
+        display: flex;
+
+        div {
+          width: 50%;
+        }
+
+        .left {
+          display: flex;
+          flex-direction: column;
+          gap: 20px;
+
+          .hero-title {
+            font-size: 65px;
+            font-weight: 800;
+            line-height: 1em;
+          }
+
+          .hero-text {
+            color: #475569;
+            word-spacing: 2px;
+            font-size: 18px;
+          }
+
+          .appointment-button {
+            background-color: var(--primary-color);
+            color: #FFFFFF;
+            width: fit-content;
+            padding: 10px 20px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.3s;
+
+            &:hover {
+              transform: translateY(5px);
+            }
+          }
+        }
+
+        .right {
+          img {
+            width: 100%;
+            border-radius: 10px;
+          }
+        }
+      }
+    }
+  }
+}
