@@ -153,6 +153,14 @@ function formatDutchDay($date)
         color: #333;
     }
 
+    .modal-photo {
+        max-width: 100%;
+        max-height: 240px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        object-fit: contain;
+    }
+
     @media (max-width: 520px) {
         .modal-grid {
             grid-template-columns: 1fr;
@@ -206,12 +214,11 @@ function formatDutchDay($date)
         photoElement.innerHTML = '';
 
         if (appointment.foto && appointment.foto.trim() !== '') {
-            const link = document.createElement('a');
-            link.href = appointment.foto;
-            link.target = '_blank';
-            link.rel = 'noopener noreferrer';
-            link.textContent = 'Bekijk foto';
-            photoElement.appendChild(link);
+            const image = document.createElement('img');
+            image.src = appointment.foto;
+            image.alt = 'Reparatiefoto';
+            image.className = 'modal-photo';
+            photoElement.appendChild(image);
         } else {
             photoElement.textContent = '-';
         }
