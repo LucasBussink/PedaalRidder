@@ -4,6 +4,7 @@ require_once '../src/database.php';
 require_once '../src/repairs.php';
 require_once '../src/customer.php';
 require_once '../src/appointments.php';
+require_once '../src/mailer.php';
 //aanmeldformulier voor reparatie
 $repair = new Repairs();
 $customerModel = new Customer();
@@ -11,8 +12,11 @@ $appointmentsModel = new Appointments();
 
 $success_message = '';
 $error_message = '';
+$mail_message = '';
 $uploaded_photo_path = null;
+$uploaded_photo_url = null;
 $scheduled_slot_message = '';
+$web3forms_payload = null;
 
 // Haal reparatietypen uit database
 $repair_types = [];
@@ -74,6 +78,13 @@ if (isset($_POST['aanmelden'])) {
 
         $photoPath = 'uploads/appointments/' . $fileName;
         $uploaded_photo_path = $photoPath;
+
+        $scheme = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+        $host = $_SERVER['HTTP_HOST'] ?? '';
+        $scriptDir = rtrim(str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'] ?? '')), '/');
+        $photoRelative = ltrim($photoPath, '/');
+        $photoUrlPath = ($scriptDir !== '' ? $scriptDir : '') . '/' . $photoRelative;
+        $uploaded_photo_url = ($host !== '') ? ($scheme . '://' . $host . $photoUrlPath) : $photoUrlPath;
       }
 
       $customerId = $customerModel->findOrCreateCustomer($name, $email, $phone);
@@ -98,6 +109,47 @@ if (isset($_POST['aanmelden'])) {
         $scheduled_slot_message = 'Tijdslot: ' . $appointmentResult['scheduled_start'] . ' t/m ' . $appointmentResult['scheduled_end'];
       } else {
         $scheduled_slot_message = 'Nog geen tijdslot ingepland (type Overig / eerst inspectie nodig).';
+      }
+
+      $accessKey = envValue('WEB3FORMS_ACCESS_KEY');
+      $fromName = envValue('WEB3FORMS_FROM_NAME', 'De PedaalRidder Website');
+      $subject = envValue('WEB3FORMS_SUBJECT', 'Nieuwe reparatie-aanmelding');
+
+      // Fallback naar de key uit het bestaande contactformulier als .env nog placeholder is.
+      if ($accessKey === '' || $accessKey === 'YOUR_WEB3FORMS_ACCESS_KEY') {
+        $accessKey = '8718a5ba-c674-4d04-a282-10462d15f8fb';
+      }
+
+      if ($accessKey === '') {
+        $mail_message = 'Mail niet verstuurd: WEB3FORMS_ACCESS_KEY ontbreekt of is nog placeholder.';
+      } else {
+        $slotText = $scheduled_slot_message;
+
+        $bericht = "Nieuwe reparatie-aanmelding ontvangen:\n\n";
+        $bericht .= "Naam: {$name}\n";
+        $bericht .= "E-mail: {$email}\n";
+        $bericht .= "Telefoon: {$phone}\n";
+        $bericht .= "Merk: {$brand}\n";
+        $bericht .= "Model: " . ($model !== '' ? $model : '-') . "\n";
+        $bericht .= "Type reparatie: {$typeRepairName}\n";
+        $bericht .= "Probleemomschrijving: " . ($issue !== '' ? $issue : '-') . "\n";
+        $bericht .= "Tijdslot: {$slotText}\n";
+        if (!empty($uploaded_photo_url)) {
+          $bericht .= "Foto: {$uploaded_photo_url}\n";
+        }
+
+        $web3forms_payload = [
+          'access_key' => $accessKey,
+          'from_name' => 'De PedaalRidder',
+          'subject' => $subject,
+          'name' => $name,
+          'email' => $email,
+          'phone' => $phone,
+          'message' => $bericht,
+          'autoresponse' => "Beste {$name},\n\nUw reparatie-aanmelding bij De PedaalRidder is ontvangen.\n{$slotText}\n\nBedankt!",
+        ];
+
+        $mail_message = 'Mail wordt verzonden...';
       }
 
       $_POST = [];
@@ -166,6 +218,14 @@ if (!empty($scheduled_slot_message)) {
   echo '<p style="color: #136DEC;">' . htmlspecialchars($scheduled_slot_message) . '</p>';
 }
 
+if (!empty($mail_message)) {
+  $mailColor = (strpos($mail_message, 'Mail verstuurd') === 0) ? 'green' : 'orange';
+  if ($mail_message === 'Mail wordt verzonden...') {
+    $mailColor = '#136DEC';
+  }
+  echo '<p id="mail-status" style="color: ' . htmlspecialchars($mailColor, ENT_QUOTES, 'UTF-8') . ';">' . htmlspecialchars($mail_message) . '</p>';
+}
+
 if (!empty($uploaded_photo_path)) {
   echo '<p><strong>Geüploade afbeelding:</strong> <a href="' . htmlspecialchars($uploaded_photo_path) . '" target="_blank">Open afbeelding</a></p>';
   echo '<p><img src="' . htmlspecialchars($uploaded_photo_path) . '" alt="Geüploade reparatiefoto" style="max-width: 320px; height: auto; border: 1px solid #ccc; padding: 4px;"></p>';
@@ -173,4 +233,43 @@ if (!empty($uploaded_photo_path)) {
 
 if (!empty($error_message)) {
   echo '<p style="color: red;">' . htmlspecialchars($error_message) . '</p>';
+}
+
+if (!empty($web3forms_payload)) {
+  $payloadJson = json_encode($web3forms_payload, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT);
+  echo '<script>
+  (function () {
+    var statusEl = document.getElementById("mail-status");
+    var payload = ' . $payloadJson . ';
+
+    fetch("https://api.web3forms.com/submit", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      body: new URLSearchParams(payload).toString()
+    })
+      .then(function (response) { return response.json(); })
+      .then(function (data) {
+        if (!statusEl) {
+          return;
+        }
+
+        if (data && data.success) {
+          statusEl.style.color = "green";
+          statusEl.textContent = "Mail verstuurd: " + (data.message || "Verzending gelukt.");
+        } else {
+          statusEl.style.color = "orange";
+          statusEl.textContent = "Mail niet verstuurd: " + ((data && data.message) ? data.message : "Onbekende fout.");
+        }
+      })
+      .catch(function () {
+        if (!statusEl) {
+          return;
+        }
+        statusEl.style.color = "orange";
+        statusEl.textContent = "Mail niet verstuurd: netwerkfout tijdens verzenden.";
+      });
+  })();
+  </script>';
 }
