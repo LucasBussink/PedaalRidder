@@ -4,6 +4,111 @@ require_once __DIR__ . '/database.php';
 
 class Appointments extends Database
 {
+  private $workdayStartHour = 8;
+  private $workdayStartMinute = 30;
+  private $workdayEndHour = 17;
+  private $workdayEndMinute = 30;
+
+  private function getBreakRangesForDate(DateTime $date)
+  {
+    $breaks = [];
+
+    $ranges = [
+      [10, 0, 10, 15],
+      [12, 0, 13, 0],
+      [15, 0, 15, 15],
+    ];
+
+    foreach ($ranges as $range) {
+      [$startHour, $startMinute, $endHour, $endMinute] = $range;
+
+      $breakStart = (clone $date)->setTime($startHour, $startMinute, 0);
+      $breakEnd = (clone $date)->setTime($endHour, $endMinute, 0);
+
+      $breaks[] = [$breakStart, $breakEnd];
+    }
+
+    return $breaks;
+  }
+
+  private function isWithinWorkingHours(DateTime $start, DateTime $end)
+  {
+    if ($start->format('Y-m-d') !== $end->format('Y-m-d')) {
+      return false;
+    }
+
+    $dayStart = (clone $start)->setTime($this->workdayStartHour, $this->workdayStartMinute, 0);
+    $dayEnd = (clone $start)->setTime($this->workdayEndHour, $this->workdayEndMinute, 0);
+
+    return $start >= $dayStart && $end <= $dayEnd;
+  }
+
+  private function overlapsBreak(DateTime $start, DateTime $end)
+  {
+    $breaks = $this->getBreakRangesForDate($start);
+
+    foreach ($breaks as $break) {
+      [$breakStart, $breakEnd] = $break;
+
+      if ($start < $breakEnd && $end > $breakStart) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  private function isBusinessSlotAllowed(DateTime $start, DateTime $end)
+  {
+    $weekday = (int) $start->format('N');
+    if ($weekday >= 6) {
+      return false;
+    }
+
+    if ($end <= $start) {
+      return false;
+    }
+
+    if (!$this->isWithinWorkingHours($start, $end)) {
+      return false;
+    }
+
+    if ($this->overlapsBreak($start, $end)) {
+      return false;
+    }
+
+    return true;
+  }
+
+  public function getSlotRuleViolation($begin, $end)
+  {
+    $start = new DateTime($begin);
+    $finish = new DateTime($end);
+
+    if ($finish <= $start) {
+      return 'Eindtijd moet later zijn dan begintijd.';
+    }
+
+    $weekday = (int) $start->format('N');
+    if ($weekday >= 6) {
+      return 'Inplannen in het weekend is niet toegestaan.';
+    }
+
+    if ($start->format('Y-m-d') !== $finish->format('Y-m-d')) {
+      return 'Een afspraak moet binnen één werkdag vallen.';
+    }
+
+    if (!$this->isWithinWorkingHours($start, $finish)) {
+      return 'Afspraken mogen alleen tussen 08:30 en 17:30 ingepland worden.';
+    }
+
+    if ($this->overlapsBreak($start, $finish)) {
+      return 'Dit tijdslot valt in een pauze. Pauzes zijn 10:00-10:15, 12:00-13:00 en 15:00-15:15.';
+    }
+
+    return null;
+  }
+
   // Lees alle kolommen van de appointments tabel, zodat we flexibel met verschillende kolomnamen kunnen omgaan.
   private function getAppointmentColumns()
   {
@@ -101,9 +206,7 @@ class Appointments extends Database
 
   private function findNextAvailableSlot($startColumn, $endColumn, $durationMinutes = 60)
   {
-    $workdayStartHour = 9;
-    $workdayEndHour = 17;
-    $stepMinutes = 30;
+    $stepMinutes = 5;
     $maxDaysAhead = 45;
 
     $candidate = $this->alignToNextSlot(new DateTime(), $stepMinutes);
@@ -116,8 +219,8 @@ class Appointments extends Database
         continue;
       }
 
-      $startOfDay = (clone $currentDay)->setTime($workdayStartHour, 0, 0);
-      $endOfDay = (clone $currentDay)->setTime($workdayEndHour, 0, 0);
+      $startOfDay = (clone $currentDay)->setTime($this->workdayStartHour, $this->workdayStartMinute, 0);
+      $endOfDay = (clone $currentDay)->setTime($this->workdayEndHour, $this->workdayEndMinute, 0);
 
       if ($day === 0 && $candidate > $startOfDay) {
         $startOfDay = $this->alignToNextSlot(clone $candidate, $stepMinutes);
@@ -128,6 +231,10 @@ class Appointments extends Database
 
         if ($slotEnd > $endOfDay) {
           break;
+        }
+
+        if (!$this->isBusinessSlotAllowed($slot, $slotEnd)) {
+          continue;
         }
 
         if (!$this->hasOverlap($startColumn, $endColumn, $slot, $slotEnd)) {
@@ -195,10 +302,10 @@ class Appointments extends Database
     ];
   }
 
-  // Haal één afspraak op via ID, inclusief klantnaam en foto.
+  // Haal één afspraak op via ID, inclusief klantnaam, e-mail en foto.
   public function getById($id)
   {
-    $query = "SELECT a.*, c.name AS customer_name
+    $query = "SELECT a.*, c.name AS customer_name, c.email AS customer_email
               FROM appointments AS a
               JOIN customers AS c ON a.customer_id = c.id
               WHERE a.id = ?
@@ -224,6 +331,11 @@ class Appointments extends Database
   // Controleer of een gewenst tijdslot vrij is (exclusief de afspraak zelf via $excludeId).
   public function isSlotFree($begin, $end, $excludeId = null)
   {
+    $ruleViolation = $this->getSlotRuleViolation($begin, $end);
+    if ($ruleViolation !== null) {
+      return false;
+    }
+
     $query = "SELECT COUNT(*) AS overlap_count
               FROM appointments
               WHERE status <> 'geannuleerd'
