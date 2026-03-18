@@ -18,7 +18,13 @@ class Planning extends Database
 
     public function getRepairsForDay($day)
     {
-        $query = "SELECT begintime, endtime, type, status FROM appointments WHERE DATE(begintime) = ? ORDER BY begintime";
+                $query = "SELECT
+                                        a.*,
+                                        c.name AS customer_name
+                                    FROM appointments AS a
+                                    LEFT JOIN customers AS c ON a.customer_id = c.id
+                                    WHERE DATE(a.begintime) = ?
+                                    ORDER BY a.begintime";
         return parent::voerQueryUit($query, [$day]);
     }
 }
