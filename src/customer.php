@@ -1,6 +1,6 @@
 <?php
 
-include_once 'database.php';
+require_once __DIR__ . '/database.php';
 
 class Customer extends Database{
   //simple function to get the name and email from a customer id
@@ -18,6 +18,37 @@ class Customer extends Database{
 
       return parent::voerQueryUit($query, $params);
     }
+
+  public function findByContact($name, $email, $phone)
+  {
+    $query = "SELECT id, name, email, phone
+              FROM customers
+              WHERE name = ? AND email = ? AND phone = ?
+              LIMIT 1";
+
+    $result = parent::voerQueryUit($query, [$name, $email, $phone]);
+    return !empty($result) ? $result[0] : null;
+  }
+
+  public function createCustomer($name, $email, $phone)
+  {
+    $query = "INSERT INTO customers (name, email, phone)
+              VALUES (?, ?, ?)";
+
+    parent::voerQueryUit($query, [$name, $email, $phone]);
+    return parent::getLastInsertId();
+  }
+
+  public function findOrCreateCustomer($name, $email, $phone)
+  {
+    $customer = $this->findByContact($name, $email, $phone);
+
+    if ($customer !== null) {
+      return (int) $customer['id'];
+    }
+
+    return $this->createCustomer($name, $email, $phone);
+  }
 
     
   }

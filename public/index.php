@@ -26,6 +26,7 @@ session_start();
         <?php
         if (isset($_SESSION['login']) && $_SESSION['login'] === true) {
           echo '<a href="logout.php" class="logout-button">Uitloggen</a>';
+          echo '<a href="afspraken_inplannen.php" class="appointments-button">Afspraken Inplannen</a>';
         } else {
           echo '<a href="login.php" class="login-button">Inloggen</a>';
           echo '<a href="registreer.php" class="register-button">Registreren</a>';
