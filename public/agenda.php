@@ -174,7 +174,6 @@ function formatDutchDay($date)
         <button type="button" class="modal-close" id="modal-close" aria-label="Sluiten">&times;</button>
         <h2 id="modal-title">Afspraak details</h2>
         <div class="modal-grid">
-            <strong>ID</strong><span id="modal-id"></span>
             <strong>Datum</strong><span id="modal-date"></span>
             <strong>Tijd</strong><span id="modal-time"></span>
             <strong>Klant</strong><span id="modal-customer"></span>
@@ -200,7 +199,6 @@ function formatDutchDay($date)
     }
 
     function openAppointmentModal(appointment) {
-        setModalText('modal-id', String(appointment.id || ''));
         setModalText('modal-date', String(appointment.datum || ''));
         setModalText('modal-time', String(appointment.tijd || ''));
         setModalText('modal-customer', String(appointment.klant || ''));
