@@ -3,7 +3,24 @@
 require_once '../src/planning.php';
 
 $planning = new Planning();
-$days = $planning->getWorkweekDays();
+
+$selectedDateRaw = $_GET['datum'] ?? date('Y-m-d');
+$selectedTimestamp = strtotime($selectedDateRaw);
+
+if ($selectedTimestamp === false) {
+    $selectedTimestamp = strtotime(date('Y-m-d'));
+}
+
+$selectedMonday = date('Y-m-d', strtotime('monday this week', $selectedTimestamp));
+$days = $planning->getWorkweekDays($selectedMonday);
+
+$previousWeekDate = date('Y-m-d', strtotime($selectedMonday . ' -7 days'));
+$nextWeekDate = date('Y-m-d', strtotime($selectedMonday . ' +7 days'));
+
+$currentMonday = date('Y-m-d', strtotime('monday this week'));
+$isCurrentWeek = $selectedMonday === $currentMonday;
+
+$weekNumber = date('W', strtotime($selectedMonday));
 
 function formatDutchDay($date)
 {
@@ -22,6 +39,17 @@ function formatDutchDay($date)
 }
 
 ?>
+
+<div style="margin-bottom:12px; display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+    <a href="?datum=<?php echo urlencode($previousWeekDate); ?>">&larr; Vorige week</a>
+    <span>
+        Week <?php echo htmlspecialchars($weekNumber); ?>
+        <?php if ($isCurrentWeek): ?>
+            - huidige week
+        <?php endif; ?>
+    </span>
+    <a href="?datum=<?php echo urlencode($nextWeekDate); ?>">Volgende week &rarr;</a>
+</div>
 
 <table border="1" cellpadding="8" cellspacing="0">
     <tr>
