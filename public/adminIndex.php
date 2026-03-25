@@ -176,18 +176,31 @@ function formatDutchDay($date)
     <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modal-title">
         <button type="button" class="modal-close" id="modal-close" aria-label="Sluiten">&times;</button>
         <h2 id="modal-title">Afspraak details</h2>
-        <div class="modal-grid">
-            <strong>ID</strong><span id="modal-id"></span>
-            <strong>Datum</strong><span id="modal-date"></span>
-            <strong>Tijd</strong><span id="modal-time"></span>
+        <form id="modal-edit-form" class="modal-grid">
+            <span id="modal-id" style="display:none;"></span>
+            <strong>Datum</strong><input type="date" id="modal-date-input" name="date" required>
+            <strong>Begintijd</strong><input type="time" id="modal-starttime-input" name="starttime" required>
+            <strong>Eindtijd</strong><input type="time" id="modal-endtime-input" name="endtime" required>
             <strong>Klant</strong><span id="modal-customer"></span>
             <strong>Type</strong><span id="modal-type"></span>
-            <strong>Status</strong><span id="modal-status"></span>
+            <strong>Status</strong>
+            <select id="modal-status-input" name="status" required>
+                <option value="gepland">Gepland</option>
+                <option value="klaar">Klaar</option>
+                <option value="bezig">Bezig</option>
+                <option value="geannuleerd">Geannuleerd</option>
+                <option value="opgehaald">Opgehaald</option>
+            </select>
             <strong>Merk</strong><span id="modal-brand"></span>
             <strong>Model</strong><span id="modal-model"></span>
             <strong>Omschrijving</strong><span id="modal-description"></span>
             <strong>Foto</strong><span id="modal-photo"></span>
-        </div>
+            <div class="modal-actions">
+                <button type="submit" id="modal-edit" class="modal-action-edit">Wijzig afspraak</button>
+                <button type="button" id="modal-cancel" class="modal-action-cancel">Annuleer afspraak</button>
+                <button type="button" id="modal-noshow" class="modal-action-noshow" style="display:none;">No Show</button>
+            </div>
+        </form>
     </div>
 </div>
   </main>
@@ -201,24 +214,41 @@ function formatDutchDay($date)
     function setModalText(id, value) {
         const el = document.getElementById(id);
         if (el) {
-            el.textContent = value && value.trim() !== '' ? value : '-';
+            if (el.tagName === 'INPUT' || el.tagName === 'SELECT') {
+                el.value = value || '';
+            } else {
+                el.textContent = value && value.trim() !== '' ? value : '-';
+            }
         }
     }
 
     function openAppointmentModal(appointment) {
         setModalText('modal-id', String(appointment.id || ''));
-        setModalText('modal-date', String(appointment.datum || ''));
-        setModalText('modal-time', String(appointment.tijd || ''));
+        // datum: dd-mm-YYYY
+        if (appointment.datum) {
+            const [dag, maand, jaar] = appointment.datum.split('-');
+            setModalText('modal-date-input', `${jaar}-${maand}-${dag}`);
+        } else {
+            setModalText('modal-date-input', '');
+        }
+        // tijd: HH:MM - HH:MM
+        if (appointment.tijd) {
+            const tijden = appointment.tijd.split(' - ');
+            setModalText('modal-starttime-input', tijden[0] || '');
+            setModalText('modal-endtime-input', tijden[1] || '');
+        } else {
+            setModalText('modal-starttime-input', '');
+            setModalText('modal-endtime-input', '');
+        }
         setModalText('modal-customer', String(appointment.klant || ''));
         setModalText('modal-type', String(appointment.type || ''));
-        setModalText('modal-status', String(appointment.status || ''));
+        setModalText('modal-status-input', String(appointment.status || ''));
         setModalText('modal-brand', String(appointment.merk || ''));
         setModalText('modal-model', String(appointment.model || ''));
         setModalText('modal-description', String(appointment.omschrijving || ''));
 
         const photoElement = document.getElementById('modal-photo');
         photoElement.innerHTML = '';
-
         if (appointment.foto && appointment.foto.trim() !== '') {
             const image = document.createElement('img');
             image.src = appointment.foto;
@@ -229,6 +259,24 @@ function formatDutchDay($date)
             photoElement.textContent = '-';
         }
 
+        // Toon No Show knop alleen als eindtijd in het verleden ligt
+        const noShowButton = document.getElementById('modal-noshow');
+        if (noShowButton) {
+            let eindtijd = appointment.tijd ? appointment.tijd.split(' - ')[1] : null;
+            let datum = appointment.datum;
+            if (eindtijd && datum) {
+                // datum: dd-mm-YYYY, tijd: HH:MM
+                const [dag, maand, jaar] = datum.split('-');
+                const eindDateTime = new Date(`${jaar}-${maand}-${dag}T${eindtijd}:00`);
+                if (!isNaN(eindDateTime.getTime()) && eindDateTime < new Date()) {
+                    noShowButton.style.display = '';
+                } else {
+                    noShowButton.style.display = 'none';
+                }
+            } else {
+                noShowButton.style.display = 'none';
+            }
+        }
         modal.style.display = 'flex';
         modal.setAttribute('aria-hidden', 'false');
     }
@@ -255,6 +303,104 @@ function formatDutchDay($date)
     });
 
     closeModalButton.addEventListener('click', closeAppointmentModal);
+
+        // Annuleer knop event handler
+
+        const cancelButton = document.getElementById('modal-cancel');
+        if (cancelButton) {
+            cancelButton.addEventListener('click', function() {
+                const id = document.getElementById('modal-id').textContent;
+                if (!id) {
+                    alert('Geen afspraak geselecteerd.');
+                    return;
+                }
+                if (!confirm('Weet je zeker dat je deze afspraak wilt annuleren?')) {
+                    return;
+                }
+                fetch('appointment_delete.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ id })
+                })
+                .then(r => r.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Afspraak verwijderd!');
+                        window.location.reload();
+                    } else {
+                        alert('Fout bij verwijderen: ' + (data.message || 'Onbekende fout'));
+                    }
+                })
+                .catch(() => alert('Netwerkfout bij verwijderen.'));
+            });
+        }
+
+        // No Show knop event handler
+        const noShowButton = document.getElementById('modal-noshow');
+        if (noShowButton) {
+            noShowButton.addEventListener('click', function() {
+                const id = document.getElementById('modal-id').textContent;
+                const date = document.getElementById('modal-date-input').value;
+                const start = document.getElementById('modal-starttime-input').value;
+                const end = document.getElementById('modal-endtime-input').value;
+                if (!id || !date || !start || !end) {
+                    alert('Vul alle velden in.');
+                    return;
+                }
+                const begintime = `${date} ${start}:00`;
+                const endtime = `${date} ${end}:00`;
+                fetch('appointment_edit.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ id, begintime, endtime, status: 'niet opgehaald' })
+                })
+                .then(r => r.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Status gewijzigd naar niet opgehaald!');
+                        window.location.reload();
+                    } else {
+                        alert('Fout bij bijwerken: ' + (data.message || 'Onbekende fout'));
+                    }
+                })
+                .catch(() => alert('Netwerkfout bij bijwerken.'));
+            });
+        }
+
+        // Wijzig formulier submit handler
+        const editForm = document.getElementById('modal-edit-form');
+        if (editForm) {
+            editForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const id = document.getElementById('modal-id').textContent;
+                const date = document.getElementById('modal-date-input').value;
+                const start = document.getElementById('modal-starttime-input').value;
+                const end = document.getElementById('modal-endtime-input').value;
+                const status = document.getElementById('modal-status-input').value;
+                if (!id || !date || !start || !end || !status) {
+                    alert('Vul alle velden in.');
+                    return;
+                }
+                // Combineer naar MySQL datetime formaat
+                const begintime = `${date} ${start}:00`;
+                const endtime = `${date} ${end}:00`;
+                fetch('appointment_edit.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ id, begintime, endtime, status })
+                })
+                .then(r => r.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Afspraak bijgewerkt!');
+                        window.location.reload();
+                    } else {
+                        alert('Fout bij bijwerken: ' + (data.message || 'Onbekende fout'));
+                    }
+                })
+                .catch(() => alert('Netwerkfout bij bijwerken.'));
+            });
+        }
 
     modal.addEventListener('click', (event) => {
         if (event.target === modal) {

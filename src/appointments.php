@@ -1,9 +1,23 @@
+
 <?php
+
 
 require_once __DIR__ . '/database.php';
 
 class Appointments extends Database
 {
+  // Verwijder een afspraak volledig uit de database
+  public function deleteAppointment($id)
+  {
+    $query = "DELETE FROM appointments WHERE id = ?";
+    return parent::voerQueryUit($query, [(int)$id]);
+  }
+  // Wijzig begintijd, eindtijd en status van een bestaande afspraak
+  public function updateAppointmentTimeAndStatus($id, $begintime, $endtime, $status)
+  {
+    $query = "UPDATE appointments SET begintime = ?, endtime = ?, status = ? WHERE id = ?";
+    return parent::voerQueryUit($query, [$begintime, $endtime, $status, (int)$id]);
+  }
   private $workdayStartHour = 8;
   private $workdayStartMinute = 30;
   private $workdayEndHour = 17;
