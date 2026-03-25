@@ -1,5 +1,19 @@
 <?php
 session_start();
+require_once '../src/authentication.php';
+$auth = new Authenticate();
+
+if (isset($_SESSION['login']) && $_SESSION['login'] === true) {
+  if (!isset($_SESSION['is_admin'])) {
+    $_SESSION['is_admin'] = $auth->checkIsAdmin($_SESSION['email'] ?? '');
+    
+  }
+
+  if ($_SESSION['is_admin'] === true) {
+    header('Location: adminIndex.php');
+    exit();
+  }
+}
 ?>
 
 <!DOCTYPE html>
@@ -26,7 +40,7 @@ session_start();
         <?php
         if (isset($_SESSION['login']) && $_SESSION['login'] === true) {
           echo '<a href="logout.php" class="logout-button">Uitloggen</a>';
-          echo '<a href="afspraken_inplannen.php" class="appointments-button">Afspraken Inplannen</a>';
+          
         } else {
           echo '<a href="login.php" class="login-button">Inloggen</a>';
           echo '<a href="registreer.php" class="register-button">Registreren</a>';
