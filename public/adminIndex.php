@@ -199,6 +199,7 @@ function formatDutchDay($date)
                 <button type="submit" id="modal-edit" class="modal-action-edit">Wijzig afspraak</button>
                 <button type="button" id="modal-cancel" class="modal-action-cancel">Annuleer afspraak</button>
                 <button type="button" id="modal-noshow" class="modal-action-noshow" style="display:none;">No Show</button>
+                <button type="button" id="modal-done" class="modal-action-done">Voltooid</button>
             </div>
         </form>
     </div>
@@ -358,6 +359,38 @@ function formatDutchDay($date)
                 .then(data => {
                     if (data.success) {
                         alert('Status gewijzigd naar niet opgehaald!');
+                        window.location.reload();
+                    } else {
+                        alert('Fout bij bijwerken: ' + (data.message || 'Onbekende fout'));
+                    }
+                })
+                .catch(() => alert('Netwerkfout bij bijwerken.'));
+            });
+        }
+
+        // Voltooid knop event handler
+        const doneButton = document.getElementById('modal-done');
+        if (doneButton) {
+            doneButton.addEventListener('click', function() {
+                const id = document.getElementById('modal-id').textContent;
+                const date = document.getElementById('modal-date-input').value;
+                const start = document.getElementById('modal-starttime-input').value;
+                const end = document.getElementById('modal-endtime-input').value;
+                if (!id || !date || !start || !end) {
+                    alert('Vul alle velden in.');
+                    return;
+                }
+                const begintime = `${date} ${start}:00`;
+                const endtime = `${date} ${end}:00`;
+                fetch('appointment_edit.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ id, begintime, endtime, status: 'klaar' })
+                })
+                .then(r => r.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Status gewijzigd naar klaar!');
                         window.location.reload();
                     } else {
                         alert('Fout bij bijwerken: ' + (data.message || 'Onbekende fout'));
