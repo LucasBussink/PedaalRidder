@@ -27,12 +27,12 @@
 
       <p class="description">Welkom terug ridder, vul a.u.b. uw gegevens in.</p>
 
-      <form>
+      <form method="POST">
         <div class="field">
-          <label>Gebruikersnaam</label>
+          <label>E-mailadres</label>
           <div class="input">
             <i class="bi bi-person-fill"></i>
-            <input type="text" placeholder="Enter your username">
+            <input type="email" placeholder="Voer uw e-mail in">
           </div>
         </div>
 
@@ -44,7 +44,7 @@
 
           <div class="input">
             <i class="bi bi-lock-fill"></i>
-            <input type="password" placeholder="Enter your password">
+            <input type="password" placeholder="Voer uw wachtwoord in">
           </div>
         </div>
 
