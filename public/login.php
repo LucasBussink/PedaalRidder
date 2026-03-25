@@ -60,12 +60,12 @@ if (isset($_POST['login'])) {
 
       <p class="description">Welkom terug ridder, vul a.u.b. uw gegevens in.</p>
 
-      <form method="post">
+      <form method="POST">
         <div class="field">
-          <label>Email</label>
+          <label>E-mailadres</label>
           <div class="input">
             <i class="bi bi-person-fill"></i>
-            <input type="email" name="email" placeholder="Enter your email">
+            <input type="email" placeholder="Voer uw e-mail in">
           </div>
         </div>
 
@@ -77,7 +77,7 @@ if (isset($_POST['login'])) {
 
           <div class="input">
             <i class="bi bi-lock-fill"></i>
-            <input type="password" name="password" placeholder="Enter your password">
+            <input type="password" placeholder="Voer uw wachtwoord in">
           </div>
         </div>
 
