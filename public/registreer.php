@@ -49,6 +49,8 @@ if (isset($_POST['register'])) {
     $user->addUser($username, $password, $email);
     $_SESSION['login'] = true;
     $_SESSION['username'] = $username;
+    $_SESSION['email'] = $email;
+    $_SESSION['is_admin'] = false;
     header("Location: index.php");
     exit();
   }
