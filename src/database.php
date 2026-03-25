@@ -34,6 +34,11 @@ class Database
         return (bool) $this->connectie;
     }
 
+    public function getLastInsertId()
+    {
+        return (int) $this->connectie->lastInsertId();
+    }
+
     public function __destruct()
     {
         $this->sluitVerbinding();
