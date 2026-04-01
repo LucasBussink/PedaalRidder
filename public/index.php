@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once '../src/authentication.php';
+require_once '../src/appointments.php';
 $auth = new Authenticate();
 
 if (isset($_SESSION['login']) && $_SESSION['login'] === true) {
@@ -67,93 +68,115 @@ if (isset($_SESSION['login']) && $_SESSION['login'] === true) {
     </section>
 
     <section class="dashboard">
-      <div class="appointment">
-        <p class="section-title">Dashboard</p>
+      <div class="container">
+        <div class="appointment">
+          <p class="section-title">Dashboard</p>
 
-        <?php if (isset($_SESSION['login']) && $_SESSION['login'] === true) { ?>
-          <div class="appointment-card">
-            <div class="left">
-              <p class="next-appointment-text">
-                <i class="bi bi-calendar-event"></i> Volgende afspraak
-              </p>
+          <?php if (isset($_SESSION['login']) && $_SESSION['login'] === true) {
+            $appointment = new Appointments();
+            $appointments = $appointment->getAppointmentsByEmail($_SESSION['email'] ?? '');
 
-              <div class="type-name">Grote beurt - Oranje gazelle</div>
+            foreach ($appointments as $appointment) {
+              $begintime = $appointment['begintime'] ?? null;
+              $endtime = $appointment['endtime'] ?? null;
+              $type = trim((string) ($appointment['type'] ?? ''));
 
-              <div class="date-time">
-                <i class="bi bi-calendar"></i>
-                <div class="date">Woensdag 1 April</div>
+              $hasSchedule = !empty($begintime) && !empty($endtime);
+              $isOverigType = strtolower($type) === 'overig';
 
-                <i class="bi bi-clock-fill"></i>
-                <div class="time">09:30 uur</div>
-              </div>
+              if ($hasSchedule && strtotime($endtime) < time()) {
+                continue; // Alleen afspraken in verleden overslaan als ze ingepland waren
+              }
 
-              <div class="status-detail">
-                <div class="status">
-                  <p class="status-text">Status</p>
-                  <div class="status">In behandeling</div>
+              $dateDisplay = 'Wordt ingepland';
+              $timeDisplay = 'Wordt ingepland';
+
+              if ($hasSchedule && !$isOverigType) {
+                $dateDisplay = date('d-m-Y', strtotime($begintime));
+                $timeDisplay = date('H:i', strtotime($begintime)) . ' uur';
+              }
+          ?>
+
+              <div class="appointment-card">
+                <div class="left">
+                  <p class="next-appointment-text">
+                    <i class="bi bi-calendar-event"></i> Volgende afspraken
+                  </p>
+
+                  <div class="type-name"><?php echo htmlspecialchars(($appointment['type'] ?? 'Onbekend') . ' - ' . ($appointment['brand'] ?? 'Onbekend merk')); ?></div>
+
+                  <div class="date-time">
+                    <i class="bi bi-calendar"></i>
+                    <div class="date"><?php echo htmlspecialchars($dateDisplay); ?></div>
+
+                    <i class="bi bi-clock-fill"></i>
+                    <div class="time"><?php echo htmlspecialchars($timeDisplay); ?></div>
+                  </div>
+
+                  <div class="status-detail">
+                    <div class="status">
+                      <p class="status-text">Status</p>
+                      <div class="status"><?php echo htmlspecialchars($appointment['status'] ?? 'Onbekend'); ?></div>
+                    </div>
+
+                    <div class="detail">
+                      <a href="" class="detail-button">Details bekijken</a>
+                    </div>
+                  </div>
                 </div>
 
-                <div class="detail">
-                  <a href="" class="detail-button">Details bekijken</a>
+                <div class="right">
+                  <img src="" alt="" class="appointment-image">
                 </div>
+              </div>
+          <?php
+            }
+          }
+          ?>
+
+        </div>
+
+        <div class="store-info">
+          <p class="section-title">Winkel Info</p>
+
+          <div class="info-card">
+            <div class="location">
+              <div class="icon">
+                <i class="bi bi-geo-alt-fill"></i>
+              </div>
+
+              <div class="text">
+                <div class="title">Locatie</div>
+                <div class="info">J.F. Kennedylaan 49, Doetinchem</div>
               </div>
             </div>
 
-            <div class="right">
-              <img src="assets/images/De Pedaalridder.png" alt="" class="appointment-image">
-            </div>
-          </div>
-      </div>
-    <?php } ?>
+            <div class="phone-number">
+              <div class="icon">
+                <i class="bi bi-telephone-fill"></i>
+              </div>
 
-      <div class="store-info">
-        <p class="section-title">Winkel Info</p>
-
-        <div class="info-card">
-          <div class="location">
-            <div class="icon">
-              <i class="bi bi-geo-alt-fill"></i>
+              <div class="text">
+                <div class="title">Telefoon</div>
+                <div class="info">0314 353 500</div>
+              </div>
             </div>
 
-            <div class="text">
-              <div class="title">Locatie</div>
-              <div class="info">J.F. Kennedylaan 49, Doetinchem</div>
-            </div>
-          </div>
+            <div class="mail">
+              <div class="icon">
+                <i class="bi bi-envelope-at-fill"></i>
+              </div>
 
-          <div class="phone-number">
-            <div class="icon">
-              <i class="bi bi-telephone-fill"></i>
-            </div>
-
-            <div class="text">
-              <div class="title">Telefoon</div>
-              <div class="info">0314 353 500</div>
-            </div>
-          </div>
-
-          <div class="mail">
-            <div class="icon">
-              <i class="bi bi-envelope-at-fill"></i>
+              <div class="text">
+                <div class="title">Email</div>
+                <div class="info">jan@pedaalridder.nl</div>
+              </div>
             </div>
 
-            <div class="text">
-              <div class="title">Email</div>
-              <div class="info">jan@pedaalridder.nl</div>
-            </div>
-          </div>
+            <hr>
 
-          <hr>
-
-          <div class="opening-hours">
-            <div class="workdays">
-              <div class="days">Maandag - Vrijdag</div>
-              <div class="time">08:30 - 18:00</div>
-            </div>
-
-            <div class="weekend">
-              <div class="days">Zaterdag</div>
-              <div class="time">10:00 - 17:00</div>
+            <div class="opening-hours">
+              <div class="days"></div>
             </div>
           </div>
         </div>
