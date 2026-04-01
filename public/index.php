@@ -6,7 +6,6 @@ $auth = new Authenticate();
 if (isset($_SESSION['login']) && $_SESSION['login'] === true) {
   if (!isset($_SESSION['is_admin'])) {
     $_SESSION['is_admin'] = $auth->checkIsAdmin($_SESSION['email'] ?? '');
-
   }
 
   if ($_SESSION['is_admin'] === true) {
@@ -41,7 +40,6 @@ if (isset($_SESSION['login']) && $_SESSION['login'] === true) {
         <?php
         if (isset($_SESSION['login']) && $_SESSION['login'] === true) {
           echo '<a href="logout.php" class="logout-button">Uitloggen</a>';
-
         } else {
           echo '<a href="login.php" class="login-button">Inloggen</a>';
           echo '<a href="registreer.php" class="register-button">Registreren</a>';
@@ -68,43 +66,46 @@ if (isset($_SESSION['login']) && $_SESSION['login'] === true) {
       </div>
     </section>
 
-    <section class="dashboard">
-      <div class="appointment">
-        <p class="section-title">Dashboard</p>
 
-        <div class="appointment-card">
-          <div class="left">
-            <p class="next-appointment-text">
-              <i class="bi bi-calendar-event"></i> Volgende afspraak
-            </p>
+    <?php if (isset($_SESSION['login']) && $_SESSION['login'] === true) { ?>
 
-            <div class="type-name">Grote beurt - Oranje gazelle</div>
+      <section class="dashboard">
+        <div class="appointment">
+          <p class="section-title">Dashboard</p>
 
-            <div class="date-time">
-              <i class="bi bi-calendar"></i>
-              <div class="date">Woensdag 1 April</div>
+          <div class="appointment-card">
+            <div class="left">
+              <p class="next-appointment-text">
+                <i class="bi bi-calendar-event"></i> Volgende afspraak
+              </p>
 
-              <i class="bi bi-clock-fill"></i>
-              <div class="time">09:30 uur</div>
-            </div>
+              <div class="type-name">Grote beurt - Oranje gazelle</div>
 
-            <div class="status-detail">
-              <div class="status">
-                <p class="status-text">Status</p>
-                <div class="status">In behandeling</div>
+              <div class="date-time">
+                <i class="bi bi-calendar"></i>
+                <div class="date">Woensdag 1 April</div>
+
+                <i class="bi bi-clock-fill"></i>
+                <div class="time">09:30 uur</div>
               </div>
 
-              <div class="detail">
-                <a href="" class="detail-button">Details bekijken</a>
+              <div class="status-detail">
+                <div class="status">
+                  <p class="status-text">Status</p>
+                  <div class="status">In behandeling</div>
+                </div>
+
+                <div class="detail">
+                  <a href="" class="detail-button">Details bekijken</a>
+                </div>
               </div>
             </div>
-          </div>
 
-          <div class="right">
-            <img src="" alt="" class="appointment-image">
+            <div class="right">
+              <img src="" alt="" class="appointment-image">
+            </div>
           </div>
         </div>
-      </div>
 
       <div class="store-info">
         <p class="section-title">Winkel Info</p>

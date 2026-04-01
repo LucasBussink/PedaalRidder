@@ -50,5 +50,10 @@ class Customer extends Database{
     return $this->createCustomer($name, $email, $phone);
   }
 
+  public function getAllCustomers()
+  {
+    $query = "SELECT id, name, email, phone, no_show_count FROM customers";
+    return parent::voerQueryUit($query);
     
   }
+}
