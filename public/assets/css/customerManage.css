@@ -1,0 +1,68 @@
+@import url('styles.css');
+
+body {
+  background: var(--background-color);
+  color: #1e293b;
+  padding: 32px 16px;
+}
+
+body > a {
+  display: block;
+  text-decoration: none;
+  color: #136DEC;
+  font-weight: 600;
+  width: 100%;
+  max-width: 1200px;
+  margin: 20px auto 0;
+}
+
+body > a:hover {
+  text-decoration: underline;
+}
+
+h1 {
+  max-width: 1200px;
+  margin: 0 auto 16px;
+  font-size: 2rem;
+  color: #1e40af;
+}
+
+table {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  border-collapse: collapse;
+  background: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 6px 20px rgba(15, 23, 42, 0.08);
+}
+
+th,
+td {
+  padding: 12px 14px;
+  border-bottom: 1px solid #e2e8f0;
+  text-align: left;
+}
+
+th {
+  background: #e7f0fd;
+  color: #1e3a8a;
+  font-weight: 700;
+}
+
+tr:hover td {
+  background: #f8fbff;
+}
+
+tr:last-child td {
+  border-bottom: none;
+}
+
+@media (max-width: 900px) {
+  table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+}

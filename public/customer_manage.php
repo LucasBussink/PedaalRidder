@@ -24,23 +24,27 @@ $allCustomers = $customers->getAllCustomers();
 ?>
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Admin - Klantenbeheer</title>
-  </head>
-  <body>
-    <h1>Klantenbeheer</h1>
-    <table border="1">
-      <tr>
-        <th>ID</th>
-        <th>Naam</th>
-        <th>Email</th>
-        <th>Telefoonnummer</th>
-        <th>Aantal keer niet verschenen</th>
-        
-      </tr>
-      <?php foreach ($allCustomers as $customer): ?>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin - Klantenbeheer</title>
+  <link rel="stylesheet" href="assets/css/customerManage.css" />
+</head>
+
+<body>
+
+  <h1>Klantenbeheer</h1>
+  <table border="1">
+    <tr>
+      <th>ID</th>
+      <th>Naam</th>
+      <th>Email</th>
+      <th>Telefoonnummer</th>
+      <th>Aantal keer niet verschenen</th>
+
+    </tr>
+    <?php foreach ($allCustomers as $customer): ?>
       <tr>
         <td><?php echo htmlspecialchars($customer['id']); ?></td>
         <td><?php echo htmlspecialchars($customer['name']); ?></td>
@@ -48,7 +52,10 @@ $allCustomers = $customers->getAllCustomers();
         <td><?php echo htmlspecialchars($customer['phone']); ?></td>
         <td><?php echo htmlspecialchars($customer['no_show_count']); ?></td>
       </tr>
-      <?php endforeach; ?>
-    </table>
-  </body>
+    <?php endforeach; ?>
+  </table>
+
+  <a href="index.php">Terug naar home</a>
+</body>
+
 </html>

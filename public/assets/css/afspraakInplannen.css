@@ -1,0 +1,149 @@
+@import url('styles.css');
+
+body {
+  font-family: Inter, sans-serif;
+  max-width: 700px;
+  margin: 40px auto;
+  padding: 0 20px;
+  background: #f6f7f8;
+  color: #1e293b;
+}
+
+h1 {
+  color: #136DEC;
+  margin-bottom: 16px;
+}
+
+.card {
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 24px;
+  box-shadow: 0 6px 20px rgba(15, 23, 42, 0.08);
+}
+
+.card h2 {
+  margin: 0 0 12px;
+  font-size: 1rem;
+  color: #334155;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+td {
+  padding: 6px 10px;
+}
+
+td:first-child {
+  font-weight: 600;
+  width: 40%;
+}
+
+.photo-preview {
+  max-width: 100%;
+  max-height: 220px;
+  border-radius: 6px;
+  margin-top: 8px;
+  border: 1px solid #e2e8f0;
+}
+
+label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+input[type="date"],
+input[type="time"],
+input[type="number"] {
+  width: 100%;
+  padding: 9px 10px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 14px;
+  margin-bottom: 16px;
+  background: #fff;
+}
+
+input:focus {
+  outline: none;
+  border-color: #136DEC;
+  box-shadow: 0 0 4px rgba(19, 109, 236, .3);
+}
+
+button[type="submit"] {
+  background: #136DEC;
+  color: #fff;
+  border: none;
+  padding: 11px 22px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+button[type="submit"]:hover {
+  background: #0d56c4;
+}
+
+.msg-ok {
+  background: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+  padding: 12px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+}
+
+.msg-err {
+  background: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+  padding: 12px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+}
+
+.occupied {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.occupied li {
+  background: #fff3cd;
+  border: 1px solid #ffc107;
+  border-radius: 6px;
+  padding: 5px 10px;
+  margin-bottom: 5px;
+  font-size: .9rem;
+}
+
+a.back {
+  display: inline-block;
+  margin-top: 20px;
+  color: #136DEC;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+a.back:hover {
+  text-decoration: underline;
+}
+
+body > a {
+  display: inline-block;
+  text-decoration: none;
+  color: #136DEC;
+  font-weight: 600;
+  margin-top: 20px;
+}
+
+body > a:hover {
+  text-decoration: underline;
+}

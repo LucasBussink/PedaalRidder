@@ -43,9 +43,7 @@ $basicRepairs = $repairs->GetAllTypeInfo();
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Admin - Standaard Reparaties</title>
-    <style>
-      .description-short { max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-    </style>
+    <link rel="stylesheet" href="assets/css/basicRepairs.css" />
   </head>
   <body>
     <h1>Standaard Reparaties</h1>
@@ -83,5 +81,7 @@ $basicRepairs = $repairs->GetAllTypeInfo();
       <input type="number" name="minutes" step="5" placeholder="Duur in minuten" />
       <button type="submit" name="toevoegen">Toevoegen</button>
     </form>
+
+      <a href="index.php">Terug naar home</a>
   </body>
 </html>

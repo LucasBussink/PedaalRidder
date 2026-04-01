@@ -52,14 +52,19 @@ if (!$repair) {
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="nl">
 <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Repair Wijzigen</title>
+  <link rel="stylesheet" href="assets/css/editRepair.css" />
 </head>
 <body>
   <h1>Standaard reparatie wijzigen</h1>
   
-  <?php if (isset($error)) echo "<p style='color: red;'>$error</p>"; ?>
+  <?php if ($error !== ''): ?>
+    <p class="msg-err"><?= htmlspecialchars($error) ?></p>
+  <?php endif; ?>
   
   <form method="POST">
     <label>Naam:</label>
@@ -70,9 +75,15 @@ if (!$repair) {
     
     <label>Duur (minuten):</label>
     <input type="number" name="minutes" min="0" step="5" value="<?php echo htmlspecialchars((string) ($repair['minutes'] ?? '')); ?>" required>
-    
-    <button type="submit">Opslaan</button>
+
+    <div class="actions">
+      <button type="submit">Opslaan</button>
+      
+    </div>
+    <br>
+    <div class="actions">
     <a href="basic_repairs.php">Terug</a>
+    </div>
   </form>
 </body>
 </html>

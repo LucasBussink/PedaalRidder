@@ -1,5 +1,10 @@
+@import url('styles.css');
 /* Admin agenda layout */
 
+body {
+  background-color: var(--background-color);
+  color: var(--primary-color);
+}
 main {
   display: flex;
   justify-content: center;

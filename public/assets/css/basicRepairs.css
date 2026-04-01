@@ -1,0 +1,133 @@
+@import url('styles.css');
+
+body {
+  background: #f6f7f8;
+  color: #1e293b;
+  padding: 32px 16px;
+}
+
+body > a {
+  display: block;
+  text-decoration: none;
+  color: #136DEC;
+  font-weight: 600;
+  width: 100%;
+  margin: 20px auto 0;
+  max-width: 1200px;
+}
+
+body > a:hover {
+  text-decoration: underline;
+}
+
+h1,
+h2 {
+  max-width: 1200px;
+  margin: 0 auto 16px;
+  color: #1e40af;
+}
+
+h2 {
+  margin-top: 28px;
+  font-size: 1.4rem;
+}
+
+table {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 6px 20px rgba(15, 23, 42, 0.08);
+}
+
+th,
+td {
+  padding: 12px 14px;
+  border-bottom: 1px solid #e2e8f0;
+  text-align: left;
+  vertical-align: middle;
+}
+
+th {
+  background: #e7f0fd;
+  color: #1e3a8a;
+  font-weight: 700;
+}
+
+tr:hover td {
+  background: #f8fbff;
+}
+
+tr:last-child td {
+  border-bottom: none;
+}
+
+.description-short {
+  max-width: 260px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+form {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+td form {
+  margin: 0;
+  display: inline-flex;
+  gap: 8px;
+}
+
+input,
+button {
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
+  padding: 9px 12px;
+  font: inherit;
+}
+
+input {
+  background: #fff;
+}
+
+button {
+  cursor: pointer;
+  font-weight: 600;
+}
+
+button[value="edit"],
+button[name="toevoegen"] {
+  background: #136dec;
+  color: #fff;
+  border-color: #136dec;
+}
+
+button[value="delete"] {
+  background: #fff1f2;
+  color: #be123c;
+  border-color: #fecdd3;
+}
+
+form[method="post"]:not(td form) {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(180px, 1fr)) auto;
+  gap: 10px;
+  align-items: center;
+}
+
+@media (max-width: 900px) {
+  table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  form[method="post"]:not(td form) {
+    grid-template-columns: 1fr;
+  }
+}

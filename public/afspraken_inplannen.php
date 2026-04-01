@@ -16,7 +16,7 @@ $unplannedAppointments = $appointments->getUnplannedAppointments();
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Afspraken Inplannen</title>
-  <link rel="stylesheet" href="assets/css/afspraken_inplannen.css">
+  <link rel="stylesheet" href="assets/css/afsprakenInplannen.css">
 </head>
 <body>
   <h1>Afspraken Inplannen</h1>
@@ -44,3 +44,6 @@ $unplannedAppointments = $appointments->getUnplannedAppointments();
   </table>
 
   <a href="index.php">Terug naar home</a>
+</body>
+</html>
+        

@@ -1,0 +1,98 @@
+@import url('styles.css');
+
+body {
+  font-family: Inter, sans-serif;
+  background: #f6f7f8;
+  color: #1e293b;
+  max-width: 760px;
+  margin: 36px auto;
+  padding: 0 16px;
+}
+
+h1 {
+  margin: 0 0 16px;
+  color: #136DEC;
+}
+
+form[method="POST"] {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(15, 23, 42, 0.08);
+  border: 1px solid #e2e8f0;
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 8px;
+}
+
+label {
+  font-weight: 600;
+  margin-top: 4px;
+}
+
+textarea,
+input[type="text"],
+input[type="number"] {
+  width: 100%;
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
+  padding: 10px 12px;
+  font: inherit;
+  background: #fff;
+  margin-bottom: 6px;
+}
+
+textarea {
+  min-height: 220px;
+  resize: vertical;
+}
+
+textarea:focus,
+input:focus {
+  outline: none;
+  border-color: #136DEC;
+  box-shadow: 0 0 0 3px rgba(19, 109, 236, .12);
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.actions button {
+  background: #136DEC;
+  color: #fff;
+  border: 1px solid #136DEC;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.actions button:hover {
+  background: #0d56c4;
+}
+
+.actions a {
+  text-decoration: none;
+  font-weight: 600;
+  color: #136DEC;
+}
+
+.actions a:hover {
+  text-decoration: underline;
+}
+
+.msg-err {
+  margin: 0 0 12px;
+  background: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+  padding: 10px 12px;
+  border-radius: 8px;
+}

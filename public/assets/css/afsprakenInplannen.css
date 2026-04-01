@@ -1,0 +1,83 @@
+@import url('styles.css');
+
+body {
+  font-family: Inter, sans-serif;
+  background: #f6f7f8;
+  color: #1e293b;
+  max-width: 1100px;
+  margin: 36px auto;
+  padding: 0 16px;
+}
+
+h1 {
+  color: #136DEC;
+  margin-bottom: 18px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 6px 20px rgba(15, 23, 42, 0.08);
+  margin-bottom: 18px;
+}
+
+thead th {
+  background: #e7f0fd;
+  color: #1e3a8a;
+  font-weight: 700;
+  text-align: left;
+  border-bottom: 1px solid #dbeafe;
+}
+
+th,
+td {
+  padding: 12px 14px;
+  border-bottom: 1px solid #e2e8f0;
+  vertical-align: top;
+}
+
+tbody tr:hover td {
+  background: #f8fbff;
+}
+
+tbody tr:last-child td {
+  border-bottom: none;
+}
+
+td a {
+  display: inline-block;
+  text-decoration: none;
+  font-weight: 600;
+  color: #ffffff;
+  background: #136DEC;
+  padding: 8px 14px;
+  border-radius: 8px;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+td a:hover {
+  background: #0d56c4;
+  transform: translateY(-1px);
+}
+
+body > a {
+  display: inline-block;
+  text-decoration: none;
+  color: #136DEC;
+  font-weight: 600;
+}
+
+body > a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 900px) {
+  table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+}
