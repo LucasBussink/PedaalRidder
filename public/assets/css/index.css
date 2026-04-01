@@ -26,10 +26,6 @@ body {
             margin-right: 3px;
           }
 
-          /* &:not(:first-of-type) {
-            text-transform: uppercase;
-          } */
-
           &.blue {
             color: var(--primary-color);
           }
@@ -110,7 +106,8 @@ body {
             transition: 0.3s;
 
             &:hover {
-              transform: translateY(5px);
+              background: #1e4ed8;
+              transform: translateY(-3px);
             }
           }
         }
@@ -123,5 +120,7 @@ body {
         }
       }
     }
+
+    
   }
 }
