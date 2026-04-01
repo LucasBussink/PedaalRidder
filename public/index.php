@@ -52,7 +52,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] === true) {
   </header>
 
   <main>
-    <div class="hero">
+    <section class="hero">
       <div class="container">
         <div class="left">
           <h2 class="hero-title">Uw fiets snel en vakkundig gerepareerd</h2>
@@ -66,11 +66,12 @@ if (isset($_SESSION['login']) && $_SESSION['login'] === true) {
           <img src="assets/images/De man hemzelf.png" alt="De pedaalridder">
         </div>
       </div>
-    </div>
+    </section>
 
-    <div class="dashboard">
+    <section class="dashboard">
       <div class="appointment">
-        <p>Dashboard</p>
+        <p class="section-title">Dashboard</p>
+
         <div class="appointment-card">
           <div class="left">
             <p class="next-appointment-text">
@@ -105,8 +106,10 @@ if (isset($_SESSION['login']) && $_SESSION['login'] === true) {
         </div>
       </div>
 
-      <div class="store-info"></div>
-    </div>
+      <div class="store-info">
+        <p></p>
+      </div>
+    </section>
   </main>
 </body>
 
