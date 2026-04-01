@@ -189,3 +189,4 @@ function sendAppointmentConfirmation(string $to, string $name, string $repairTyp
 
     return $result['success'];
 }
+

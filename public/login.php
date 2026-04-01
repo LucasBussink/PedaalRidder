@@ -72,7 +72,7 @@ if (isset($_POST['login'])) {
         <div class="field">
           <div class="label-row">
             <label>Wachtwoord</label>
-            <a href="#">Wachtwoord vergeten?</a>
+            <a href="new_password.php">Wachtwoord vergeten?</a>
           </div>
 
           <div class="input">

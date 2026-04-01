@@ -114,6 +114,32 @@ body {
                 border-color: #2563eb;
               }
             }
+
+            &.password-input-wrap input {
+              padding-right: 44px;
+            }
+
+            .toggle-password {
+              position: absolute;
+              right: 10px;
+              top: 50%;
+              transform: translateY(-50%);
+              border: none;
+              background: transparent;
+              color: #9ca3af;
+              cursor: pointer;
+              padding: 4px;
+              line-height: 1;
+            }
+
+            .toggle-password:hover {
+              color: #334155;
+            }
+
+            .toggle-password:focus {
+              outline: none;
+              color: #2563eb;
+            }
           }
         }
 
