@@ -226,7 +226,7 @@ function formatDutchDay($date)
     }
 
     function openAppointmentModal(appointment) {
-        setModalText('modal-id', String(appointment.id || ''));
+        document.getElementById('modal-id').textContent = String(appointment.id || '');
         // datum: dd-mm-YYYY
         if (appointment.datum) {
             const [dag, maand, jaar] = appointment.datum.split('-');
@@ -312,7 +312,7 @@ function formatDutchDay($date)
         const cancelButton = document.getElementById('modal-cancel');
         if (cancelButton) {
             cancelButton.addEventListener('click', function() {
-                const id = document.getElementById('modal-id').textContent;
+                const id = document.getElementById('modal-id').textContent.trim();
                 if (!id) {
                     alert('Geen afspraak geselecteerd.');
                     return;
@@ -342,7 +342,7 @@ function formatDutchDay($date)
         const noShowButton = document.getElementById('modal-noshow');
         if (noShowButton) {
             noShowButton.addEventListener('click', function() {
-                const id = document.getElementById('modal-id').textContent;
+                const id = document.getElementById('modal-id').textContent.trim();
                 const date = document.getElementById('modal-date-input').value;
                 const start = document.getElementById('modal-starttime-input').value;
                 const end = document.getElementById('modal-endtime-input').value;
@@ -374,7 +374,7 @@ function formatDutchDay($date)
         const doneButton = document.getElementById('modal-done');
         if (doneButton) {
             doneButton.addEventListener('click', function() {
-                const id = document.getElementById('modal-id').textContent;
+                const id = document.getElementById('modal-id').textContent.trim();
                 const date = document.getElementById('modal-date-input').value;
                 const start = document.getElementById('modal-starttime-input').value;
                 const end = document.getElementById('modal-endtime-input').value;
@@ -407,7 +407,7 @@ function formatDutchDay($date)
         if (editForm) {
             editForm.addEventListener('submit', function(e) {
                 e.preventDefault();
-                const id = document.getElementById('modal-id').textContent;
+                const id = document.getElementById('modal-id').textContent.trim();
                 const date = document.getElementById('modal-date-input').value;
                 const start = document.getElementById('modal-starttime-input').value;
                 const end = document.getElementById('modal-endtime-input').value;
