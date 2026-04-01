@@ -391,4 +391,15 @@ class Appointments extends Database
 
     return parent::voerQueryUit($query);
   }
+
+  public function getAppointmentsByEmail($email)
+  {
+    $query = "SELECT a.*, c.name AS customer_name, c.email AS customer_email
+              FROM appointments AS a
+              JOIN customers AS c ON a.customer_id = c.id
+              WHERE c.email = ?
+              ORDER BY a.begintime DESC";
+
+    return parent::voerQueryUit($query, [$email]);
+  }
 }
