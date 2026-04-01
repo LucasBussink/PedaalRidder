@@ -6,7 +6,7 @@ $auth = new Authenticate();
 if (isset($_SESSION['login']) && $_SESSION['login'] === true) {
   if (!isset($_SESSION['is_admin'])) {
     $_SESSION['is_admin'] = $auth->checkIsAdmin($_SESSION['email'] ?? '');
-    
+
   }
 
   if ($_SESSION['is_admin'] === true) {
@@ -24,6 +24,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] === true) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Home | PedaalRidder</title>
   <link rel="stylesheet" href="assets/css/index.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
 </head>
 
 <body>
@@ -40,7 +41,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] === true) {
         <?php
         if (isset($_SESSION['login']) && $_SESSION['login'] === true) {
           echo '<a href="logout.php" class="logout-button">Uitloggen</a>';
-          
+
         } else {
           echo '<a href="login.php" class="login-button">Inloggen</a>';
           echo '<a href="registreer.php" class="register-button">Registreren</a>';
@@ -51,7 +52,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] === true) {
   </header>
 
   <main>
-    <div class="hero">
+    <section class="hero">
       <div class="container">
         <div class="left">
           <h2 class="hero-title">Uw fiets snel en vakkundig gerepareerd</h2>
@@ -65,7 +66,50 @@ if (isset($_SESSION['login']) && $_SESSION['login'] === true) {
           <img src="assets/images/De man hemzelf.png" alt="De pedaalridder">
         </div>
       </div>
-    </div>
+    </section>
+
+    <section class="dashboard">
+      <div class="appointment">
+        <p class="section-title">Dashboard</p>
+
+        <div class="appointment-card">
+          <div class="left">
+            <p class="next-appointment-text">
+              <i class="bi bi-calendar-event"></i> Volgende afspraak
+            </p>
+
+            <div class="type-name">Grote beurt - Oranje gazelle</div>
+
+            <div class="date-time">
+              <i class="bi bi-calendar"></i>
+              <div class="date">Woensdag 1 April</div>
+
+              <i class="bi bi-clock-fill"></i>
+              <div class="time">09:30 uur</div>
+            </div>
+
+            <div class="status-detail">
+              <div class="status">
+                <p class="status-text">Status</p>
+                <div class="status">In behandeling</div>
+              </div>
+
+              <div class="detail">
+                <a href="" class="detail-button">Details bekijken</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="right">
+            <img src="" alt="" class="appointment-image">
+          </div>
+        </div>
+      </div>
+
+      <div class="store-info">
+        <p></p>
+      </div>
+    </section>
   </main>
 </body>
 
