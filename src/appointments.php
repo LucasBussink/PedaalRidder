@@ -12,6 +12,14 @@ class Appointments extends Database
     $query = "DELETE FROM appointments WHERE id = ?";
     return parent::voerQueryUit($query, [(int)$id]);
   }
+
+  // Markeer een afspraak als geannuleerd.
+  public function cancelAppointment($id)
+  {
+    $query = "UPDATE appointments SET status = 'geannuleerd' WHERE id = ?";
+    return parent::voerQueryUit($query, [(int)$id]);
+  }
+
   // Wijzig begintijd, eindtijd en status van een bestaande afspraak
   public function updateAppointmentTimeAndStatus($id, $begintime, $endtime, $status)
   {
