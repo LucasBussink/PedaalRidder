@@ -93,8 +93,10 @@ function formatDutchDay($date)
       <nav>
         <?php
         if (isset($_SESSION['login']) && $_SESSION['login'] === true) {
-          echo '<a href="logout.php" class="logout-button">Uitloggen</a>';
-          echo '<a href="afspraken_inplannen.php" class="appointments-button">Afspraken Inplannen</a>';
+            echo '<a href="afspraken_inplannen.php" class="appointments-button">Afspraken Inplannen</a>';
+            echo '<a href="basic_repairs.php" class="repairs-button">Standaard Reparaties</a>';
+            echo '<a href="customer_manage.php" class="customers-button">Klanten</a>';
+            echo '<a href="logout.php" class="logout-button">Uitloggen</a>';
         } else {
           echo '<a href="login.php" class="login-button">Inloggen</a>';
           echo '<a href="registreer.php" class="register-button">Registreren</a>';
