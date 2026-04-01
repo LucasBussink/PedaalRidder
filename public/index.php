@@ -128,19 +128,12 @@ if (isset($_SESSION['login']) && $_SESSION['login'] === true) {
                       <div class="status"><?php echo htmlspecialchars($appointment['status'] ?? 'Onbekend'); ?></div>
                     </div>
 
+
                     <div class="detail">
-                      <?php if ($canCancel && $appointmentId > 0): ?>
-                        <button
-                          type="button"
-                          class="detail-button cancel-appointment-button"
-                          data-appointment-id="<?php echo htmlspecialchars((string) $appointmentId); ?>"
-                        >
-                          Afspraak annuleren
-                        </button>
-                      <?php else: ?>
-                        <span class="detail-button" style="opacity:.6;cursor:not-allowed;">Niet annuleerbaar</span>
-                      <?php endif; ?>
+                      <a href="appointment_details.php?id=<?php echo urlencode((string) $appointmentId); ?>" class="detail-button">Details bekijken</a>
                     </div>
+
+                    
                   </div>
                 </div>
 
@@ -219,13 +212,20 @@ if (isset($_SESSION['login']) && $_SESSION['login'] === true) {
       }
 
       fetch('appointment_cancel.php', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id: id })
-      })
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            id: id
+          })
+        })
         .then(function(response) {
           return response.json().then(function(data) {
-            return { ok: response.ok, data: data };
+            return {
+              ok: response.ok,
+              data: data
+            };
           });
         })
         .then(function(result) {

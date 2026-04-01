@@ -327,7 +327,7 @@ class Appointments extends Database
   // Haal één afspraak op via ID, inclusief klantnaam, e-mail en foto.
   public function getById($id)
   {
-    $query = "SELECT a.*, c.name AS customer_name, c.email AS customer_email
+    $query = "SELECT a.*, c.name AS customer_name, c.email AS customer_email, c.phone AS customer_phone
               FROM appointments AS a
               JOIN customers AS c ON a.customer_id = c.id
               WHERE a.id = ?
