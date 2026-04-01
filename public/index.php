@@ -77,21 +77,28 @@ if (isset($_SESSION['login']) && $_SESSION['login'] === true) {
             $appointments = $appointment->getAppointmentsByEmail($_SESSION['email'] ?? '');
 
             foreach ($appointments as $appointment) {
+              $appointmentId = (int) ($appointment['id'] ?? 0);
               $begintime = $appointment['begintime'] ?? null;
               $endtime = $appointment['endtime'] ?? null;
               $type = trim((string) ($appointment['type'] ?? ''));
+              $status = trim((string) ($appointment['status'] ?? ''));
 
               $hasSchedule = !empty($begintime) && !empty($endtime);
-              $isOverigType = strtolower($type) === 'overig';
+              $startTimestamp = $hasSchedule ? strtotime((string) $begintime) : false;
+              $canCancel = $hasSchedule
+                && $startTimestamp !== false
+                && ($startTimestamp - time()) > (24 * 60 * 60)
+                && strtolower($status) === 'gepland';
 
-              if ($hasSchedule && strtotime($endtime) < time()) {
+              if ($hasSchedule && strtotime($endtime) < time() || strtolower($status) === 'geannuleerd') {
                 continue; // Alleen afspraken in verleden overslaan als ze ingepland waren
               }
 
+              $createdAt = $appointment['created_at'] ?? null;
               $dateDisplay = 'Wordt ingepland';
               $timeDisplay = 'Wordt ingepland';
 
-              if ($hasSchedule && !$isOverigType) {
+              if ($hasSchedule) {
                 $dateDisplay = date('d-m-Y', strtotime($begintime));
                 $timeDisplay = date('H:i', strtotime($begintime)) . ' uur';
               }
@@ -120,13 +127,23 @@ if (isset($_SESSION['login']) && $_SESSION['login'] === true) {
                     </div>
 
                     <div class="detail">
-                      <a href="" class="detail-button">Details bekijken</a>
+                      <?php if ($canCancel && $appointmentId > 0): ?>
+                        <button
+                          type="button"
+                          class="detail-button cancel-appointment-button"
+                          data-appointment-id="<?php echo htmlspecialchars((string) $appointmentId); ?>"
+                        >
+                          Afspraak annuleren
+                        </button>
+                      <?php else: ?>
+                        <span class="detail-button" style="opacity:.6;cursor:not-allowed;">Niet annuleerbaar</span>
+                      <?php endif; ?>
                     </div>
                   </div>
                 </div>
 
                 <div class="right">
-                  <img src="" alt="" class="appointment-image">
+                  <img src="<?php echo htmlspecialchars($appointment['photo_path'] ?? 'assets/images/default-image.png'); ?>" alt="" class="appointment-image">
                 </div>
               </div>
           <?php
@@ -184,5 +201,45 @@ if (isset($_SESSION['login']) && $_SESSION['login'] === true) {
     </section>
   </main>
 </body>
+
+<script>
+  document.querySelectorAll('.cancel-appointment-button').forEach(function(button) {
+    button.addEventListener('click', function() {
+      var id = this.getAttribute('data-appointment-id');
+      if (!id) {
+        alert('Kon afspraak niet bepalen.');
+        return;
+      }
+
+      if (!confirm('Weet je zeker dat je deze afspraak wilt annuleren?')) {
+        return;
+      }
+
+      fetch('appointment_cancel.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: id })
+      })
+        .then(function(response) {
+          return response.json().then(function(data) {
+            return { ok: response.ok, data: data };
+          });
+        })
+        .then(function(result) {
+          if (result.ok && result.data && result.data.success) {
+            alert('Afspraak succesvol geannuleerd.');
+            window.location.reload();
+            return;
+          }
+
+          var message = (result.data && result.data.message) ? result.data.message : 'Onbekende fout.';
+          alert(message);
+        })
+        .catch(function() {
+          alert('Netwerkfout bij annuleren.');
+        });
+    });
+  });
+</script>
 
 </html>
