@@ -66,8 +66,6 @@ if (isset($_SESSION['login']) && $_SESSION['login'] === true) {
       </div>
     </section>
 
-
-
     <section class="dashboard">
       <div class="appointment">
         <p class="section-title">Dashboard</p>
@@ -102,11 +100,11 @@ if (isset($_SESSION['login']) && $_SESSION['login'] === true) {
             </div>
 
             <div class="right">
-              <img src="" alt="" class="appointment-image">
+              <img src="assets/images/De Pedaalridder.png" alt="" class="appointment-image">
             </div>
           </div>
-        </div>
-        <?php } ?>
+      </div>
+    <?php } ?>
 
       <div class="store-info">
         <p class="section-title">Winkel Info</p>
@@ -148,12 +146,19 @@ if (isset($_SESSION['login']) && $_SESSION['login'] === true) {
           <hr>
 
           <div class="opening-hours">
-            <div class="days"></div>
+            <div class="workdays">
+              <div class="days">Maandag - Vrijdag</div>
+              <div class="time">08:30 - 18:00</div>
+            </div>
+
+            <div class="weekend">
+              <div class="days">Zaterdag</div>
+              <div class="time">10:00 - 17:00</div>
+            </div>
           </div>
         </div>
       </div>
     </section>
-
   </main>
 </body>
 
