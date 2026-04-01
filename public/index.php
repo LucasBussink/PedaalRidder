@@ -107,7 +107,48 @@ if (isset($_SESSION['login']) && $_SESSION['login'] === true) {
       </div>
 
       <div class="store-info">
-        <p></p>
+        <p class="section-title">Winkel Info</p>
+
+        <div class="info-card">
+          <div class="location">
+            <div class="icon">
+              <i class="bi bi-geo-alt-fill"></i>
+            </div>
+
+            <div class="text">
+              <div class="title">Locatie</div>
+              <div class="info">J.F. Kennedylaan 49, Doetinchem</div>
+            </div>
+          </div>
+
+          <div class="phone-number">
+            <div class="icon">
+              <i class="bi bi-telephone-fill"></i>
+            </div>
+
+            <div class="text">
+              <div class="title">Telefoon</div>
+              <div class="info">0314 353 500</div>
+            </div>
+          </div>
+
+          <div class="mail">
+            <div class="icon">
+              <i class="bi bi-envelope-at-fill"></i>
+            </div>
+
+            <div class="text">
+              <div class="title">Email</div>
+              <div class="info">jan@pedaalridder.nl</div>
+            </div>
+          </div>
+
+          <hr>
+
+          <div class="opening-hours">
+            <div class="days"></div>
+          </div>
+        </div>
       </div>
     </section>
   </main>
