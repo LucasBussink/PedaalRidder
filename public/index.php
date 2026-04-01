@@ -67,12 +67,12 @@ if (isset($_SESSION['login']) && $_SESSION['login'] === true) {
     </section>
 
 
-    <?php if (isset($_SESSION['login']) && $_SESSION['login'] === true) { ?>
 
-      <section class="dashboard">
-        <div class="appointment">
-          <p class="section-title">Dashboard</p>
+    <section class="dashboard">
+      <div class="appointment">
+        <p class="section-title">Dashboard</p>
 
+        <?php if (isset($_SESSION['login']) && $_SESSION['login'] === true) { ?>
           <div class="appointment-card">
             <div class="left">
               <p class="next-appointment-text">
@@ -106,6 +106,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] === true) {
             </div>
           </div>
         </div>
+        <?php } ?>
 
       <div class="store-info">
         <p class="section-title">Winkel Info</p>
@@ -152,6 +153,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] === true) {
         </div>
       </div>
     </section>
+
   </main>
 </body>
 
