@@ -57,7 +57,7 @@ body {
             color: #FFFFFF;
           }
 
-          
+
 
           &.logout-button {
             background-color: #E7F0FD;
@@ -70,7 +70,6 @@ body {
 
   main {
     .hero {
-      background-color: #F6F7F8;
       padding: 80px;
 
       .container {
@@ -123,6 +122,249 @@ body {
       }
     }
 
-    
+    .dashboard {
+      background-color: #F6F7F8;
+      padding: 80px;
+
+      .container {
+        display: flex;
+        gap: 40px;
+
+        .appointment {
+          width: calc(100% / 3 * 2);
+
+          .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 20px;
+          }
+
+          .appointment-card {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            display: flex;
+            gap: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+            .left {
+              flex: 1;
+
+              .next-appointment-text {
+                color: var(--primary-color);
+                text-transform: uppercase;
+                font-size: 10px;
+                font-weight: 700;
+                letter-spacing: 0.5px;
+                margin-bottom: 15px;
+
+                i {
+                  margin-right: 5px;
+                }
+              }
+
+              .type-name {
+                font-size: 18px;
+                font-weight: 600;
+                margin-bottom: 25px;
+              }
+
+              .date-time {
+                display: flex;
+                color: #475569;
+                font-size: 14px;
+
+                i {
+                  margin-right: 5px;
+                }
+
+                .date {
+                  margin-right: 10px;
+                }
+              }
+
+              hr {
+                margin: 20px 0;
+                height: 1px;
+                color: rgba(255, 255, 255, 0.5);
+              }
+
+              .status-detail {
+                display: flex;
+                justify-content: space-between;
+
+                .status {
+                  .status-text {
+                    color: #475569;
+                    text-transform: uppercase;
+                    font-size: 10px;
+                    font-weight: 600;
+                  }
+
+                  .status-indicator {
+                    padding: 4px 8px;
+                    padding-right: 12px;
+                    font-size: 14px;
+                    font-weight: 500;
+                    text-transform: capitalize;
+                    border-radius: 100px;
+
+                    i {
+                      width: fit-content;
+                    }
+                  }
+
+                  &.gepland {
+                    .status-indicator {
+                      background-color: #DBEAFE;
+                      color: #2563EB;
+                    }
+                  }
+
+                  &.klaar {
+                    .status-indicator {
+                      background-color: #D1FAE5;
+                      color: #10B981;
+                    }
+                  }
+
+                  &.bezig {
+                    .status-indicator {
+                      background-color: #FEF3C7;
+                      color: #FEF3C7;
+                    }
+                  }
+
+                  &.geannuleerd {
+                    .status-indicator {
+                      background-color: #FEE2E2;
+                      color: #EF4444;
+                    }
+                  }
+
+                  &.opgehaald {
+                    .status-indicator {
+                      background-color: #DCFCE7;
+                      color: #22C55E;
+                    }
+                  }
+
+                  &.onbekend {
+                    .status-indicator {
+                      background-color: #E5E7EB;
+                      color: #6B7280;
+                    }
+                  }
+                }
+
+                .detail {
+                  display: flex;
+                  align-items: flex-end;
+
+                  .detail-button {
+                    background-color: #F1F5F9;
+                    color: #0F172A;
+                    text-decoration: none;
+                    padding: 10px 15px;
+                    border-radius: 5px;
+                    font-weight: 600;
+                    font-size: 14px;
+                  }
+                }
+              }
+            }
+
+            .right {
+              width: fit-content;
+              display: flex;
+              justify-content: flex-end;
+
+              img {
+                max-height: 172px;
+                border-radius: 10px;
+              }
+            }
+          }
+        }
+
+        .store-info {
+          width: calc(100% / 3);
+
+          .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 20px;
+          }
+
+          .info-card {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+            .location,
+            .phone-number,
+            .mail {
+              display: flex;
+              margin-bottom: 10px;
+
+              .icon {
+                background-color: #428AEF;
+                padding: 10px 11px;
+                border-radius: 5px;
+                height: fit-content;
+                margin-right: 10px;
+              }
+
+              .text {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+
+                .title {
+                  color: #C4DAFA;
+                  font-size: 14px;
+                  font-weight: 600;
+                }
+
+                .info {
+                  font-weight: 600;
+                  font-size: 16px;
+                }
+              }
+            }
+
+            hr {
+              color: rgba(255, 255, 255, 0.25);
+              margin: 30px 0 25px 0;
+            }
+
+            .opening-hours {
+              .days {
+                .weekdays,
+                .weekend {
+                  display: flex;
+                  justify-content: space-between;
+
+                  .days {
+                    color: rgba(255, 255, 255, 0.75);
+                  }
+
+                  .times {
+                    font-weight: 600;
+                  }
+                }
+
+                .weekdays {
+                  margin-bottom: 5px;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
   }
 }
