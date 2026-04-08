@@ -49,28 +49,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['set_password'])) {
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Nieuw wachtwoord instellen</title>
+	<link rel="stylesheet" href="assets/css/setNewPassword.css">
 </head>
 
 <body>
-	<h1>Nieuw wachtwoord instellen</h1>
+	<main>
+		<h1>Nieuw wachtwoord instellen</h1>
+		<p class="description">Kies een nieuw wachtwoord van minimaal 8 tekens.</p>
 
-	<?php if ($message !== ''): ?>
-		<p style="color: red;"><?php echo htmlspecialchars($message); ?></p>
-	<?php endif; ?>
+		<?php if ($message !== ''): ?>
+			<p class="message"><?php echo htmlspecialchars($message); ?></p>
+		<?php endif; ?>
 
-	<form method="post">
-		<label for="password">Nieuw wachtwoord:</label>
-		<input type="password" id="password" name="password" minlength="8" required>
+		<form method="post">
+			<label for="password">Nieuw wachtwoord:</label>
+			<input type="password" id="password" name="password" minlength="8" required>
 
-		<br><br>
+			<label for="confirm_password">Herhaal nieuw wachtwoord:</label>
+			<input type="password" id="confirm_password" name="confirm_password" minlength="8" required>
 
-		<label for="confirm_password">Herhaal nieuw wachtwoord:</label>
-		<input type="password" id="confirm_password" name="confirm_password" minlength="8" required>
-
-		<br><br>
-
-		<button type="submit" name="set_password">Opslaan</button>
-	</form>
+			<button type="submit" name="set_password">Opslaan</button>
+		</form>
+	</main>
 </body>
 
 </html>

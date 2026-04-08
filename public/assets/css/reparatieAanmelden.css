@@ -1,0 +1,123 @@
+@import url('styles.css');
+
+body {
+  background: var(--background-color);
+  color: #1e293b;
+  margin: 0;
+  padding: 32px 16px 24px;
+}
+
+.repair-page {
+  width: 100%;
+  max-width: 760px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+h2 {
+  color: var(--primary-color);
+  margin: 16px auto 10px;
+  font-size: 1.4rem;
+}
+
+form {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 6px 20px rgba(15, 23, 42, 0.08);
+}
+
+label {
+  display: block;
+  font-weight: 600;
+  color: #334155;
+  margin-bottom: 6px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+select,
+textarea {
+  width: 100%;
+  border: 1px solid #d4d4d8;
+  border-radius: 8px;
+  padding: 11px 12px;
+  font-size: 14px;
+  color: #334155;
+  background: #fff;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(19, 109, 236, 0.15);
+}
+
+#overig-extra {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 12px;
+}
+
+#repair_photo_button,
+input[type="submit"] {
+  border: none;
+  border-radius: 8px;
+  background: var(--primary-color);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 10px 14px;
+  transition: 0.2s ease;
+}
+
+#repair_photo_button:hover,
+input[type="submit"]:hover {
+  background: #1e4ed8;
+  transform: translateY(-1px);
+}
+
+#repair_photo_name {
+  display: inline-block;
+  margin-left: 10px;
+  color: #63738a;
+}
+
+p {
+  margin-top: 12px;
+}
+
+p a {
+  color: var(--primary-color);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+p a:hover {
+  text-decoration: underline;
+}
+
+img[alt="Geüploade reparatiefoto"] {
+  max-width: 100%;
+  border-radius: 8px;
+}
+
+@media (max-width: 640px) {
+  body {
+    padding: 16px 10px;
+  }
+
+  form {
+    padding: 14px;
+  }
+}

@@ -1,0 +1,52 @@
+@import url('styles.css');
+
+body {
+  background: var(--background-color);
+  color: #1e293b;
+  max-width: 760px;
+  margin: 32px auto;
+  padding: 0 16px 24px;
+}
+
+h1 {
+  color: var(--primary-color);
+  margin-bottom: 14px;
+}
+
+p,
+ul {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin-bottom: 10px;
+}
+
+ul {
+  padding-left: 30px;
+}
+
+li {
+  color: #334155;
+}
+
+strong {
+  color: #334155;
+}
+
+img {
+  display: block;
+  max-width: 300px;
+  height: auto;
+  border-radius: 10px;
+  border: 1px solid #cbd5e1;
+  background: #fff;
+  padding: 4px;
+}
+
+@media (max-width: 640px) {
+  body {
+    margin: 16px auto;
+    padding: 0 10px 16px;
+  }
+}

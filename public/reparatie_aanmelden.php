@@ -159,6 +159,16 @@ if (isset($_POST['aanmelden'])) {
   }
 }
 ?>
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reparatie aanmelden</title>
+  <link rel="stylesheet" href="assets/css/reparatieAanmelden.css">
+</head>
+<body>
+<main class="repair-page">
 <h2>Klantgegevens</h2>
 <form method="post" enctype="multipart/form-data">
   <label for="name">Naam:</label>
@@ -273,3 +283,8 @@ if (!empty($web3forms_payload)) {
   })();
   </script>';
 }
+
+?>
+</main>
+</body>
+</html>

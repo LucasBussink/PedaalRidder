@@ -87,27 +87,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Wachtwoord vergeten</title>
+  <link rel="stylesheet" href="assets/css/newPassword.css">
 </head>
 <body>
-  <div id="mail-status"></div>
+  <main>
+    <h1>Wachtwoord vergeten</h1>
+    <p class="description">Vraag een resetcode aan en verifieer deze om je wachtwoord opnieuw in te stellen.</p>
 
-  <?php if (isset($message)): ?>
-    <p><?= htmlspecialchars($message) ?></p>
-  <?php endif; ?>
+    <div id="mail-status"></div>
 
-  <?php if (!isset($_SESSION['reset_code'])): ?>
-    <form method="POST">
-      <label>Vul uw e-mailadres in:</label>
-      <input type="email" name="email" placeholder="E-mailadres" required>
-      <button type="submit" name="request_reset">Code verzenden</button>
-    </form>
-  <?php else: ?>
-    <form method="POST">
-      <label>Vul de 6-cijferige code in:</label>
-      <input type="text" name="code" placeholder="000000" maxlength="6" required>
-      <button type="submit" name="verify_code">Code verifiëren</button>
-    </form>
-  <?php endif; ?>
+    <?php if (isset($message) && $message !== ''): ?>
+      <p class="message"><?= htmlspecialchars($message) ?></p>
+    <?php endif; ?>
+
+    <?php if (!isset($_SESSION['reset_code'])): ?>
+      <form method="POST">
+        <label>Vul uw e-mailadres in:</label>
+        <input type="email" name="email" placeholder="E-mailadres" required>
+        <button type="submit" name="request_reset">Code verzenden</button>
+      </form>
+    <?php else: ?>
+      <form method="POST">
+        <label>Vul de 6-cijferige code in:</label>
+        <input type="text" name="code" placeholder="000000" maxlength="6" required>
+        <button type="submit" name="verify_code">Code verifiëren</button>
+      </form>
+    <?php endif; ?>
+  </main>
 
   <?php if (!empty($web3forms_payload)): ?>
     <script>

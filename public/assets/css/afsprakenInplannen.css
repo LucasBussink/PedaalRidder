@@ -1,5 +1,9 @@
 @import url('styles.css');
 
+* {
+  box-sizing: border-box;
+}
+
 body {
   font-family: Inter, sans-serif;
   background: #f6f7f8;
@@ -22,6 +26,10 @@ table {
   overflow: hidden;
   box-shadow: 0 6px 20px rgba(15, 23, 42, 0.08);
   margin-bottom: 18px;
+}
+
+.mobile-inline-type {
+  display: none;
 }
 
 thead th {
@@ -75,9 +83,85 @@ body > a:hover {
 }
 
 @media (max-width: 900px) {
-  table {
+  body {
+    margin: 20px auto;
+    padding: 0 12px;
+  }
+
+  table,
+  thead,
+  tbody,
+  tr,
+  th,
+  td {
     display: block;
-    overflow-x: auto;
-    white-space: nowrap;
+    width: 100%;
+  }
+
+  thead {
+    display: none;
+  }
+
+  table {
+    background: transparent;
+    box-shadow: none;
+    border-radius: 0;
+    margin-bottom: 14px;
+  }
+
+  tbody {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  tbody tr {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.06);
+    padding: 8px 0;
+  }
+
+  tbody tr:hover td {
+    background: transparent;
+  }
+
+  td {
+    padding: 8px 12px;
+    border-bottom: 1px solid #eef2f7;
+    white-space: normal;
+    word-break: break-word;
+  }
+
+  td:last-child {
+    border-bottom: none;
+  }
+
+  td::before {
+    content: attr(data-label);
+    display: block;
+    font-size: 12px;
+    font-weight: 700;
+    color: #64748b;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
+  .customer-cell { order: 1; }
+  .brand-cell { order: 2; }
+  .type-cell { display: none; }
+  .problem-cell { order: 3; }
+  .action-cell { order: 4; }
+
+  .mobile-inline-type {
+    display: inline;
+  }
+
+  .action-cell a {
+    width: 100%;
+    text-align: center;
+    padding: 10px 14px;
   }
 }

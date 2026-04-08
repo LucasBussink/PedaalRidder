@@ -90,7 +90,13 @@ function formatDutchDay($date)
         <span class="orange">Ridder</span>
       </a>
 
-      <nav>
+            <button type="button" id="menu-toggle" class="menu-toggle" aria-label="Menu openen" aria-controls="main-nav" aria-expanded="false">
+                <span class="line"></span>
+                <span class="line"></span>
+                <span class="line"></span>
+            </button>
+
+            <nav id="main-nav" class="main-nav">
         <?php
         if (isset($_SESSION['login']) && $_SESSION['login'] === true) {
             echo '<a href="adminIndex.php" class="home-button">Agenda</a>';
@@ -129,7 +135,7 @@ function formatDutchDay($date)
                     </tr>
                     <tr>
                         <?php foreach ($days as $day): ?>
-                            <td>
+                            <td data-day="<?php echo htmlspecialchars(formatDutchDay($day)); ?>">
                                 <?php
                                 $repairs = $planning->getRepairsForDay($day);
 
@@ -212,6 +218,35 @@ function formatDutchDay($date)
 
 </html>
 <script>
+    const menuToggle = document.getElementById('menu-toggle');
+    const mainNav = document.getElementById('main-nav');
+
+    if (menuToggle && mainNav) {
+        const menuLinks = mainNav.querySelectorAll('a');
+
+        menuToggle.addEventListener('click', () => {
+            const isOpen = mainNav.classList.toggle('is-open');
+            menuToggle.classList.toggle('is-open', isOpen);
+            menuToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        });
+
+        menuLinks.forEach((link) => {
+            link.addEventListener('click', () => {
+                mainNav.classList.remove('is-open');
+                menuToggle.classList.remove('is-open');
+                menuToggle.setAttribute('aria-expanded', 'false');
+            });
+        });
+
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 960) {
+                mainNav.classList.remove('is-open');
+                menuToggle.classList.remove('is-open');
+                menuToggle.setAttribute('aria-expanded', 'false');
+            }
+        });
+    }
+
     const modal = document.getElementById('appointment-modal');
     const closeModalButton = document.getElementById('modal-close');
 
