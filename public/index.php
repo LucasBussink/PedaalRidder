@@ -67,8 +67,6 @@ if (isset($_SESSION['login']) && $_SESSION['login'] === true) {
       </div>
     </section>
 
-
-
     <section class="dashboard">
       <div class="container">
         <div class="appointment">
@@ -109,10 +107,13 @@ if (isset($_SESSION['login']) && $_SESSION['login'] === true) {
               <div class="appointment-card">
                 <div class="left">
                   <p class="next-appointment-text">
-                    <i class="bi bi-calendar-event"></i> Volgende afspraken
+                    <i class="bi bi-calendar-event"></i>
+                    Aankomende afspraak
                   </p>
 
-                  <div class="type-name"><?php echo htmlspecialchars(($appointment['type'] ?? 'Onbekend') . ' - ' . ($appointment['brand'] ?? 'Onbekend merk')); ?></div>
+                  <div class="type-name">
+                    <?php echo htmlspecialchars(($appointment['type'] ?? 'Onbekend') . ' - ' . ($appointment['brand'] ?? 'Onbekend merk')); ?>
+                  </div>
 
                   <div class="date-time">
                     <i class="bi bi-calendar"></i>
@@ -122,10 +123,15 @@ if (isset($_SESSION['login']) && $_SESSION['login'] === true) {
                     <div class="time"><?php echo htmlspecialchars($timeDisplay); ?></div>
                   </div>
 
+                  <hr>
+
                   <div class="status-detail">
-                    <div class="status">
+                    <div class="status <?php echo htmlspecialchars($appointment['status'] ?? 'Onbekend'); ?>">
                       <p class="status-text">Status</p>
-                      <div class="status"><?php echo htmlspecialchars($appointment['status'] ?? 'Onbekend'); ?></div>
+                      <div class="status-indicator">
+                        <i class="bi bi-dot"></i>
+                        <?php echo htmlspecialchars($appointment['status'] ?? 'Onbekend'); ?>
+                      </div>
                     </div>
 
 
@@ -133,7 +139,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] === true) {
                       <a href="appointment_details.php?id=<?php echo urlencode((string) $appointmentId); ?>" class="detail-button">Details bekijken</a>
                     </div>
 
-                    
+
                   </div>
                 </div>
 
@@ -188,13 +194,22 @@ if (isset($_SESSION['login']) && $_SESSION['login'] === true) {
             <hr>
 
             <div class="opening-hours">
-              <div class="days"></div>
+              <div class="days">
+                <div class="weekdays">
+                  <div class="days">Maandag - Vrijdag</div>
+                  <div class="times">08:30 - 17:30</div>
+                </div>
+
+                <div class="weekend">
+                  <div class="days">Zaterdag & Zondag</div>
+                  <div class="times">Gesloten</div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </section>
-
   </main>
 </body>
 
