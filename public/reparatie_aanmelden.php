@@ -104,6 +104,8 @@ if (isset($_POST['aanmelden'])) {
       );
 
       $success_message = 'Reparatie succesvol aangemeld.';
+      header('Location: index.php');
+      exit();
 
       if (!empty($appointmentResult['scheduled_start']) && !empty($appointmentResult['scheduled_end'])) {
         $scheduled_slot_message = 'Tijdslot: ' . $appointmentResult['scheduled_start'] . ' t/m ' . $appointmentResult['scheduled_end'];
@@ -268,6 +270,7 @@ if (!empty($web3forms_payload)) {
         if (data && data.success) {
           statusEl.style.color = "green";
           statusEl.textContent = "Mail verstuurd: " + (data.message || "Verzending gelukt.");
+          
         } else {
           statusEl.style.color = "orange";
           statusEl.textContent = "Mail niet verstuurd: " + ((data && data.message) ? data.message : "Onbekende fout.");

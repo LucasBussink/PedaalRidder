@@ -147,6 +147,7 @@ body {
             display: flex;
             gap: 20px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
 
             .left {
               flex: 1;
@@ -232,7 +233,7 @@ body {
                   &.bezig {
                     .status-indicator {
                       background-color: #FEF3C7;
-                      color: #FEF3C7;
+                      color: #F59E0B;
                     }
                   }
 

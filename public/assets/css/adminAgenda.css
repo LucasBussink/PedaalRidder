@@ -213,6 +213,73 @@ main {
   object-fit: contain;
 }
 
+.modal-actions {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.modal-actions button {
+  border: none;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.15s ease, opacity 0.15s ease, background-color 0.15s ease;
+}
+
+.modal-actions button:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.modal-actions button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+  transform: none;
+}
+
+.modal-action-edit {
+  background: #2563eb;
+  color: #fff;
+}
+
+.modal-action-edit:hover:not(:disabled) {
+  background: #1d4ed8;
+}
+
+.modal-action-cancel {
+  background: #ef4444;
+  color: #fff;
+}
+
+.modal-action-cancel:hover:not(:disabled) {
+  background: #dc2626;
+}
+
+.modal-action-noshow {
+  background: #f59e0b;
+  color: #fff;
+}
+
+.modal-action-noshow:hover:not(:disabled) {
+  background: #d97706;
+}
+
+.modal-action-done {
+  background: #16a34a;
+  color: #fff;
+}
+
+.modal-action-done:hover:not(:disabled) {
+  background: #15803d;
+}
+
+.modal-action-noshow.is-waiting {
+  background: #94a3b8;
+}
+
 @media (max-width: 960px) {
   header .container {
     align-items: flex-start;

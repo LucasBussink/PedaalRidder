@@ -71,7 +71,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] === true) {
       <div class="container">
         <div class="appointment">
           <p class="section-title">Dashboard</p>
-
+          
           <?php if (isset($_SESSION['login']) && $_SESSION['login'] === true) {
             $appointment = new Appointments();
             $appointments = $appointment->getAppointmentsByEmail($_SESSION['email'] ?? '');
@@ -102,6 +102,7 @@ if (isset($_SESSION['login']) && $_SESSION['login'] === true) {
                 $dateDisplay = date('d-m-Y', strtotime($begintime));
                 $timeDisplay = date('H:i', strtotime($begintime)) . ' uur';
               }
+          
           ?>
 
               <div class="appointment-card">
@@ -130,7 +131,12 @@ if (isset($_SESSION['login']) && $_SESSION['login'] === true) {
                       <p class="status-text">Status</p>
                       <div class="status-indicator">
                         <i class="bi bi-dot"></i>
-                        <?php echo htmlspecialchars($appointment['status'] ?? 'Onbekend'); ?>
+                        <?php if ($dateDisplay == 'Wordt ingepland') {
+                          echo 'Wordt ingepland';
+                        } else {
+                          echo htmlspecialchars($appointment['status'] ?? 'Onbekend');
+                        } ?>
+                        
                       </div>
                     </div>
 
@@ -149,6 +155,9 @@ if (isset($_SESSION['login']) && $_SESSION['login'] === true) {
               </div>
           <?php
             }
+          }
+          else {
+            echo 'U moet ingelogd zijn om uw afspraken te zien. <a href="login.php">Log hier in</a>.';
           }
           ?>
 

@@ -309,11 +309,20 @@ function formatDutchDay($date)
                 const eindDateTime = new Date(`${jaar}-${maand}-${dag}T${eindtijd}:00`);
                 if (!isNaN(eindDateTime.getTime()) && eindDateTime < new Date()) {
                     noShowButton.style.display = '';
+                    noShowButton.disabled = false;
+                    noShowButton.classList.remove('is-waiting');
+                    noShowButton.textContent = 'No Show';
                 } else {
-                    noShowButton.style.display = 'none';
+                    noShowButton.style.display = '';
+                    noShowButton.disabled = true;
+                    noShowButton.classList.add('is-waiting');
+                    noShowButton.textContent = 'No Show (na afloop)';
                 }
             } else {
-                noShowButton.style.display = 'none';
+                noShowButton.style.display = '';
+                noShowButton.disabled = true;
+                noShowButton.classList.add('is-waiting');
+                noShowButton.textContent = 'No Show (na afloop)';
             }
         }
         modal.style.display = 'flex';

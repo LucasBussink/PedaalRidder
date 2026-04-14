@@ -406,7 +406,7 @@ class Appointments extends Database
               FROM appointments AS a
               JOIN customers AS c ON a.customer_id = c.id
               WHERE c.email = ?
-              ORDER BY a.begintime DESC";
+              ORDER BY a.begintime";
 
     return parent::voerQueryUit($query, [$email]);
   }
